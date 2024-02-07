@@ -23,32 +23,34 @@ function App() {
   const [gameOver, setGameOver] = useState(false);
 
   const handleBoxCLick = (boxIdx) => {
-    const updatedboard = board.map((value, idx) => {
-      if (idx === boxIdx) {
-        return xPlaying ? "X" : "O";
-      } else {
-        return value;
+    if (board[boxIdx] === null && !gameOver) {
+      const updatedboard = board.map((value, idx) => {
+        if (idx === boxIdx) {
+          return xPlaying ? "X" : "O";
+        } else {
+          return value;
+        }
+      });
+  
+      const winner = checkWinner(updatedboard);
+  
+      if (winner) {
+        if (winner === "O") {
+          let { oScore } = scores;
+          oScore += 1;
+          setScore({ ...scores, oScore });
+        } else {
+          let { xScore } = scores;
+          xScore += 1;
+          setScore({ ...scores, xScore });
+        }
       }
-    });
-
-    const winner = checkWinner(updatedboard);
-
-    if (winner) {
-      if (winner === "O") {
-        let { oScore } = scores;
-        oScore += 1;
-        setScore({ ...scores, oScore });
-      } else {
-        let { xScore } = scores;
-        xScore += 1;
-        setScore({ ...scores, xScore });
-      }
+  
+      setBoard(updatedboard);
+      setXPlaying(!xPlaying);
     }
-
-    setBoard(updatedboard);
-    setXPlaying(!xPlaying);
   };
-
+  
   const checkWinner = (board) => {
     for (let i = 0; i < WIN_CONDITION.length; i++) {
       const [x, y, z] = WIN_CONDITION[i];
