@@ -54,13 +54,14 @@ function App() {
   const checkWinner = (board) => {
     for (let i = 0; i < WIN_CONDITION.length; i++) {
       const [x, y, z] = WIN_CONDITION[i];
-
-      if (board[x && board[x]] === board[y] && board[y] === board[z]) {
+  
+      if (board[x] && board[x] === board[y] && board[y] === board[z]) {
         setGameOver(true);
         return board[x];
       }
     }
   };
+  
 
   const resetBoard = () => {
     setGameOver(false);
